@@ -154,39 +154,7 @@ public class LitecoinWallet extends JSONRPCMethodCaller implements ICoinWallet {
 		params.add(accountName);
 		return callJSONRPCMethodForStringResponse("getaccountaddress", params);
 	}
-	/**
-	 * Main for testing
-	 * @param args
-	 */
-	public static void main (String[] args) {
-		File config = new File("C:\\Users\\guygrigsby\\Desktop\\testnet\\testnetdata\\litecoin.conf");
-		
-		try (Scanner in = new Scanner(config)) {
-			String rpcUser = null;
-			String rpcPassword = null;
-			int rpcPort = 0;
-			while (in.hasNext()) {
-				String next = in.nextLine();
-				String value = next.substring(next.lastIndexOf("=") + 1).trim();
-				if (next.startsWith("rpcuser")) {
-					rpcUser = value;
-				} 
-				if (next.startsWith("rpcpassword")) {
-					rpcPassword = value;
-				} 
-				if (next.startsWith("rpcport")) {
-					rpcPort = Integer.parseInt(value);
-				}
-			}
-			ICoinWallet wallet = new LitecoinWallet(rpcUser, rpcPassword, rpcPort);
-			//wallet.backupWallet(new File("C:\\Users\\guygrigsby\\Desktop"));
-			//Map map = wallet.getAllAccounts();
-			//pl(wallet.getAccountAddress((String)map.keySet().iterator().next()));
-			pl(wallet.getNewAddress(null));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
-	}
+
 	
 	public static void pl(Object o) {
 		System.out.println(o);

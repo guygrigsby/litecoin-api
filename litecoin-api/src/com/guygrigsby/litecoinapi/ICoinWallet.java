@@ -22,6 +22,7 @@ public interface ICoinWallet {
 
 	public static final int LITECOIND_DEFAULT_PORT = 9333;
 	public static final int LITECOIND_TESTNET_PORT = 19333;
+	public static final String LITECOIN_TESTNET_ADDRESS = "n4NoMeyTYCMRwYY13eh4QAdVLsx5XuExMS";
 
 	public static final String LOCALHOST_ADDRESS = "http://localhost";
 
@@ -78,9 +79,19 @@ public interface ICoinWallet {
 	 * @throws LitecoinAPIException
 	 */
 	public abstract double getBalance() throws LitecoinAPIException;
-
+	/**
+	 * Gets info about the wallet.
+	 * @return a {@code Map} of information about the wallet
+	 * @throws LitecoinAPIException
+	 */
 	public abstract Map<String, String> getInfo() throws LitecoinAPIException;
-
+	/**
+	 * Sends a payment
+	 * @param address the recipient
+	 * @param amount the amount to send
+	 * @return the tx id
+	 * @throws LitecoinAPIException
+	 */
 	public abstract String sendPayment(String address, double amount)
 			throws LitecoinAPIException;
 
