@@ -154,9 +154,4 @@ public class LitecoinWallet extends JSONRPCMethodCaller implements ICoinWallet {
 		params.add(accountName);
 		return callJSONRPCMethodForStringResponse("getaccountaddress", params);
 	}
-
-	
-	public static void pl(Object o) {
-		System.out.println(o);
-	}
 }
