@@ -28,14 +28,12 @@ import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionOptions;
 
-public class JSONRPCMethodCaller {
+public abstract class JSONRPCMethodCaller {
 	
-	protected String rpcUser;
-	protected String rpcPassword;
-	protected int rpcPort;
-	protected String rpcAddress;
-	
-	
+	private String rpcUser;
+	private String rpcPassword;
+	private int rpcPort;
+	private String rpcAddress;
 	
 	protected JSONRPCMethodCaller(String user, String pass, int port, String serverAddress) {
 		rpcUser = user;
@@ -43,13 +41,13 @@ public class JSONRPCMethodCaller {
 		rpcPort = port;
 		rpcAddress = serverAddress;
 	}
-	protected String callJSONRPCMethodForStringResponse(String method, List<Object> params) throws LitecoinAPIException {
+	protected final String callJSONRPCMethodForStringResponse(String method, List<Object> params) throws LitecoinAPIException {
 		return callJSONRPCMethod(method, params).toString();
 	}
-	protected double callJSONRPCMethodForDoubleResponse(String method, List<Object> params) throws LitecoinAPIException {
+	protected final double callJSONRPCMethodForDoubleResponse(String method, List<Object> params) throws LitecoinAPIException {
 		return Double.parseDouble(callJSONRPCMethod(method, params).toString());
 	}
-	protected Object callJSONRPCMethod(String method, List<Object> params) throws LitecoinAPIException {
+	protected final Object callJSONRPCMethod(String method, List<Object> params) throws LitecoinAPIException {
 		JSONRPC2Session session = getSession();
 		JSONRPC2Request request;
 		if (params == null) {
@@ -67,8 +65,7 @@ public class JSONRPCMethodCaller {
 		return null;
 	}
 	
-	private JSONRPC2Response sendRequestToServer(JSONRPC2Session session, JSONRPC2Request request) {
-		// Send request
+	private JSONRPC2Response sendRequestToServer(JSONRPC2Session session, JSONRPC2Request request) throws LitecoinAPIException {
 		JSONRPC2Response response = null;
 
 		try {
@@ -78,12 +75,12 @@ public class JSONRPCMethodCaller {
 			response = session.send(request);
 
 		} catch (JSONRPC2SessionException e) {
-			e.printStackTrace();
+			handleResponseError(response);
 		}
 		return response;
 	}
 	
-	protected void handleResponseError(JSONRPC2Response response) throws LitecoinAPIException {
+	private void handleResponseError(JSONRPC2Response response) throws LitecoinAPIException {
 		JSONRPC2Error err = response.getError();
 		System.err.println("\terror.code    : " + err.getCode());
 		System.err.println("\terror.message : " + err.getMessage());
@@ -91,7 +88,7 @@ public class JSONRPCMethodCaller {
 		throw new LitecoinAPIException(err);
 	}
 
-	protected JSONRPC2Session getSession() {
+	private JSONRPC2Session getSession() {
 
 		Authenticator.setDefault(new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -114,5 +111,19 @@ public class JSONRPCMethodCaller {
 	private static String getNextRequestId() {
 		nextRequestNumber++;
 		return "rqsr:" + nextRequestNumber; 
+	}
+	
+
+	public void setPassword(String pass) {
+		rpcPassword = pass;		
+	}
+
+	public void setUser(String user) {
+		rpcUser = user;
+	}
+
+	public void setPort(int port) {
+		rpcPort = port;
+		
 	}
 }

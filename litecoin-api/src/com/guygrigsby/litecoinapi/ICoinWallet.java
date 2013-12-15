@@ -37,19 +37,13 @@ public interface ICoinWallet {
 	 *             if the server cannot be reached
 	 */
 	public abstract void backupWallet(File file) throws LitecoinAPIException;
-
 	/**
-	 * Returns a new Litecoin address for receiving payments. If {@code account} is
-	 * specified (recommended), it is added to the address book so payments
-	 * received with the address will be credited to {@code account}.
-	 * 
-	 * @param account the account. May be {@code null}
-	 * @return the new address 
+	 * Returns the account associated with the given address.
+	 * @param address the address
+	 * @return the account associated with the given address.
 	 * @throws LitecoinAPIException
 	 */
-	public abstract String getNewAddress(String account)
-			throws LitecoinAPIException;
-
+	public abstract String getAccount(String address) throws LitecoinAPIException;
 	/**
 	 * Returns the current Litecoin address for receiving payments to this
 	 * account.
@@ -85,6 +79,18 @@ public interface ICoinWallet {
 	 * @throws LitecoinAPIException
 	 */
 	public abstract Map<String, String> getInfo() throws LitecoinAPIException;
+
+	/**
+	 * Returns a new Litecoin address for receiving payments. If {@code account} is
+	 * specified (recommended), it is added to the address book so payments
+	 * received with the address will be credited to {@code account}.
+	 * 
+	 * @param account the account. May be {@code null}
+	 * @return the new address 
+	 * @throws LitecoinAPIException
+	 */
+	public abstract String getNewAddress(String account)
+			throws LitecoinAPIException;
 	/**
 	 * Sends a payment
 	 * @param address the recipient
@@ -94,14 +100,13 @@ public interface ICoinWallet {
 	 */
 	public abstract String sendPayment(String address, double amount)
 			throws LitecoinAPIException;
-
-	public abstract void setPassword(String pass);
-
-	public abstract void setPort(int port);
-
-	public abstract void setUser(String user);
-
-	public abstract String verifyAddress(String address)
+	/**
+	 * Return information about {@code address}.
+	 * @param address the address
+	 * @return the information as key value pairs
+	 * @throws LitecoinAPIException
+	 */
+	public abstract Map<String, String> verifyAddress(String address)
 			throws LitecoinAPIException;
 
 }

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 import net.minidev.json.JSONObject;
@@ -39,40 +38,20 @@ public class LitecoinWallet extends JSONRPCMethodCaller implements ICoinWallet {
 	public LitecoinWallet(String user, String pass, int port, String serverAddress) {
 		super(user, pass, port, serverAddress);
 	}
-
-	/* (non-Javadoc)
-	 * @see com.guygrigsby.liteclypse.wallet.ICoinWallet#setPassord(java.lang.String)
-	 */
-	@Override
-	public void setPassword(String pass) {
-		rpcPassword = pass;		
-	}
-
-	/* (non-Javadoc)
-	 * @see com.guygrigsby.liteclypse.wallet.ICoinWallet#setUser(java.lang.String)
-	 */
-	@Override
-	public void setUser(String user) {
-		rpcUser = user;
-	}
-	/*
-	 * (non-Javadoc)
-	 * @see com.guygrigsby.liteclypse.wallet.ICoinWallet#setPort(int)
-	 */
-	@Override
-	public void setPort(int port) {
-		rpcPort = port;
-		
-	}
-
 	/* (non-Javadoc)
 	 * @see com.guygrigsby.liteclypse.wallet.ICoinWallet#verifyAddress(java.lang.String)
 	 */
 	@Override
-	public String verifyAddress(String address) throws LitecoinAPIException{
+	public Map<String, String> verifyAddress(String address) throws LitecoinAPIException{
 		List<Object> params = new LinkedList<Object>();
 		params.add(address);
-		return callJSONRPCMethodForStringResponse("validateaddress", params);
+		JSONObject ret =  (JSONObject) callJSONRPCMethod("validateaddress", params);
+		Set<String> keys = ret.keySet();
+		Map<String, String> infos = new HashMap<String, String>();
+		for (String key: keys) {
+			infos.put(key, (String) ret.get(key));
+		}
+		return infos;
 	}
 	
 	/* (non-Javadoc)
@@ -153,5 +132,15 @@ public class LitecoinWallet extends JSONRPCMethodCaller implements ICoinWallet {
 		List<Object> params = new LinkedList<Object>();
 		params.add(accountName);
 		return callJSONRPCMethodForStringResponse("getaccountaddress", params);
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see com.guygrigsby.litecoinapi.ICoinWallet#getAccount(java.lang.String)
+	 */
+	@Override
+	public String getAccount(String address) throws LitecoinAPIException {
+		List<Object> params = new LinkedList<Object>();
+		params.add(address);
+		return callJSONRPCMethodForStringResponse("getaccount", params);
 	}
 }
