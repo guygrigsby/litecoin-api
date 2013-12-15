@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class LitecoinAPI {
-	private static ICoinWallet litecoinWallet;
+	private static Wallet litecoinWallet;
 
 	private LitecoinAPI() {
 
@@ -29,7 +29,7 @@ public class LitecoinAPI {
 	 * Method for parsing the litecoin config file and creating a wallet. This
 	 * should only be called once unless the config file changes. To get a
 	 * wallet that has already been created call
-	 * {@link LiteCoinAPI#getLiteCoinWallet()}
+	 * {@link LitecoinAPI#getLiteCoinWallet()}
 	 * 
 	 * @param configFile
 	 *            a {@code java.io.File} representing the litecoin configuration
@@ -38,7 +38,7 @@ public class LitecoinAPI {
 	 * @throws LitecoinAPIException
 	 *             if the wallet could not be created
 	 */
-	public static ICoinWallet createLiteCoinWallet(File configFile)
+	public static Wallet createLiteCoinWallet(File configFile)
 			throws LitecoinAPIException {
 		try (Scanner in = new Scanner(configFile)) {
 			String rpcUser = null;
@@ -70,7 +70,7 @@ public class LitecoinAPI {
 	 * 
 	 * @return the wallet
 	 */
-	public static ICoinWallet getLiteCoinWallet() {
+	public static Wallet getLiteCoinWallet() {
 		if (litecoinWallet == null) {
 			throw new RuntimeException(
 					"Must call LiteCoinAPI.createLiteCoinWallet() first");

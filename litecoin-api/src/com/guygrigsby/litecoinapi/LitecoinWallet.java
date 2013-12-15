@@ -25,7 +25,7 @@ import java.util.Set;
 import net.minidev.json.JSONObject;
 
 
-public class LitecoinWallet extends JSONRPCMethodCaller implements ICoinWallet {
+public class LitecoinWallet extends JSONRPCMethodCaller implements Wallet {
 
 	public LitecoinWallet(String user, String pass) {
 		this(user, pass, LITECOIND_DEFAULT_PORT);

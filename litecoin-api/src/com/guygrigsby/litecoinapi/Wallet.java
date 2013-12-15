@@ -18,7 +18,7 @@ package com.guygrigsby.litecoinapi;
 import java.io.File;
 import java.util.Map;
 
-public interface ICoinWallet {
+public interface Wallet {
 
 	public static final int LITECOIND_DEFAULT_PORT = 9333;
 	public static final int LITECOIND_TESTNET_PORT = 19333;
