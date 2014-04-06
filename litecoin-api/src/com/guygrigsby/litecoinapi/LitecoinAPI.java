@@ -26,7 +26,7 @@ public class LitecoinAPI {
 	}
 
 	/**
-	 * Method for parsing the litecoin config file and creating a wallet. This
+	 * Method for parsing the litecoin config file and creating a wallet on {@code localhost}. This
 	 * should only be called once unless the config file changes. To get a
 	 * wallet that has already been created call
 	 * {@link LitecoinAPI#getLiteCoinWallet()}
